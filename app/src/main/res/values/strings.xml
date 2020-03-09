@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Gestion de stock</string>
+    <string name="tag">MEMBER LOGIN</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">login</string>
+    <string name="swipe_left_for_register">swipe_left_for_description</string>
+    <string name="loading">loading</string>
+    <string name="saveLoginCheckBox">Remember Me</string>
+    <string name="hostname">Host name</string>
+    <string name="Port">Port</string>
+    <string name="inText">inText</string>
+    <string name="desc">Smartech via son groupe d’experts hautement qualifiés fournit des solutions informatiques de conseil, de support et de coaching au logiciel Maximo et à IBM Control Desk. Bénéficiant d’une vaste expérience dans les domaines de gestion d’actifs d’entreprise (EAM), de gestion des services informatiques (ITSM) et de gestion des actifs informatiques (ITAM), notre équipe de spécialistes certifiés déploie, améliore et prend en charge le système IBM Maximo.
+En tant que partenaire fiable, notre mission principale est de créer des produits et de proposer des solutions autour du système IBM Maximo afin d’optimiser votre gestion d’actifs.
+Dans ce contexte, Smartech est l’éditeur intégrateur de Smart Project Link et de Smart Mobile pour Maximo.
+S’appuyant sur une double expertise informatique et métier, Smartech est en mesure de se positionner en tant que partenaire majeur et fournisseur informatique de PME / PMI afin de garantir une meilleure gouvernance et une continuité de ses différentes activités aux niveaux national et international.
+    </string>
+    <string name="swipe_right_for_login">Swipe Right for Login</string>
+    <string name="link_regist">link_regist</string>
+    <string name="link_resgit1">link_regist1</string>
+    <string name="txtUsername"></string>
+
+    <string name="title_conf">Configuration</string>
+    <string name="secured">Secured</string>
+    <string name="non_secured">Not Secured</string>
+
+
+    <string name="Ok">Ok</string>
+    <string name="buttonCancel">Cancel</string>
+
+
+
+
+
+</resources>
