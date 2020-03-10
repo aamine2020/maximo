@@ -1,4 +1,4 @@
-package com.example.gestion_de_stock;
+package gestionDeStock.Login;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -18,15 +18,19 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.jackrutorial.webService.ApiUtils;
-import com.jackrutorial.webService.UserService;
+import com.example.gestion_de_stock.R;
+
+
+import gestionDeStock.Home.HomeActivity;
+import gestionDeStock.jackrutorial.webService.ApiUtils;
+import gestionDeStock.jackrutorial.webService.UserService;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-// page login test
+
 public  class LoginActivity extends AppCompatActivity  {
 
     private EditText username;
@@ -264,7 +268,7 @@ public  class LoginActivity extends AppCompatActivity  {
                 if (response.code() == 200) {
 
                     //login start main activity
-                    Intent intent = new Intent(LoginActivity.this, Description.class);
+                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     intent.putExtra("username", username);
                     startActivity(intent);
                 } else {

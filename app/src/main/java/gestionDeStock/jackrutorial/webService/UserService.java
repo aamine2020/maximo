@@ -1,4 +1,4 @@
-package com.jackrutorial.webService;
+package gestionDeStock.jackrutorial.webService;
 
 import retrofit2.Call;
 import retrofit2.http.Field;

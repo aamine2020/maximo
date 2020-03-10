@@ -3,7 +3,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".Description">
+        tools:context="gestionDeStock.Home.Description">
 
         <ImageView
             android:id="@+id/smartech"
