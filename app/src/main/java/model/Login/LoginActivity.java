@@ -1,4 +1,4 @@
-package gestionDeStock.Login;
+package model.Login;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -14,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,10 +22,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.gestion_de_stock.R;
 
 
-import gestionDeStock.Home.HomeActivity;
-import gestionDeStock.jackrutorial.webService.ApiUtils;
-import gestionDeStock.jackrutorial.webService.UserService;
+import java.net.URL;
+import java.util.List;
 
+import controller.QueryService;
+import model.Home.HomeActivity;
+import controller.ApiUtils;
+import controller.UserService;
+
+import outils.Inventor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,7 +41,8 @@ public  class LoginActivity extends AppCompatActivity  {
 
     private EditText username;
     private EditText password;
-  //  private EditText Port1,hostname;
+    private static String status;
+    private EditText Port,hostname;
     private Button login;
     public ImageView menu;
     private ProgressBar loading;
@@ -53,6 +60,9 @@ public  class LoginActivity extends AppCompatActivity  {
     private static String URL_LOGIN;
 //    private View v;
     private UserService userService;
+    private QueryService queryService;
+
+
   //  private RadioButton secured;
    // private RadioButton non_secured;
  //   private String myText ;
@@ -77,10 +87,12 @@ public  class LoginActivity extends AppCompatActivity  {
         menu = (ImageView) findViewById(R.id.menu);
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
+        status="(status != 'OBSOLETE' and siteid = 'FLEET' and location like '%ATLANTA%')";
         login = (Button) findViewById(R.id.login);
-       // link_regist = (ImageView) findViewById(R.id.link_regist);
-       // Port = (EditText) findViewById(R.id.Port);
 
+       // link_regist = (ImageView) findViewById(R.id.link_regist);
+        Port = (EditText) findViewById(R.id.Port);
+        hostname = (EditText) findViewById(R.id.Hostname);
         saveLoginCheckBox = (CheckBox) findViewById(R.id.saveLoginCheckBox);
         loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
         loginPrefsEditor = loginPreferences.edit();
@@ -93,7 +105,8 @@ public  class LoginActivity extends AppCompatActivity  {
 
 
 
-       URL_LOGIN = "http://192.168.1.210:9876";
+      // URL_LOGIN = "http://192.168.1.210:9876";
+        URL_LOGIN = "http://maxgps.smartech-tn.com:9876";
 
 
       /*      if(secured.isChecked()){
@@ -104,6 +117,7 @@ public  class LoginActivity extends AppCompatActivity  {
             }
 */
         userService = ApiUtils.getUserService(URL_LOGIN);
+        queryService=ApiUtils.getQueryService(URL_LOGIN);
 
             //checkbox
             saveLogin = loginPreferences.getBoolean("saveLogin", false);
@@ -158,9 +172,7 @@ public  class LoginActivity extends AppCompatActivity  {
             public void onClick(View v) {
 
                 // valider les champs requis ...
-                conf();
-
-
+               conf();
 
             }
         });
@@ -206,71 +218,27 @@ public  class LoginActivity extends AppCompatActivity  {
             password.setError("Please insert password");
         }
 
-/*
-        if (!mUser.isEmpty() && !mPass.isEmpty() && !hNAME.isEmpty() && !port.isEmpty()) {
-                //do login
-                doLogin(mUser, mPass);
+ }
 
-        } else if (mUser.isEmpty() && mPass.isEmpty() && hNAME.isEmpty() && port.isEmpty()) {
-            username.setError("Please insert Name");
-            password.setError("Please insert password");
-            Hostname.setError("Please insert hostname");
-            Port.setError("Please insert port");
-        } else if (mUser.isEmpty() && mPass.isEmpty() && hNAME.isEmpty() && !port.isEmpty()) {
-            username.setError("Please insert Name");
-            password.setError("Please insert password");
-            Hostname.setError("Please insert hostname");
-        } else if (mUser.isEmpty() && mPass.isEmpty() && !hNAME.isEmpty() && !port.isEmpty()) {
-            username.setError("Please insert Name");
-            password.setError("Please insert password");
-        } else if (mUser.isEmpty() && !mPass.isEmpty() && !hNAME.isEmpty() && !port.isEmpty()) {
-            username.setError("Please insert Name");
-        } else if (mPass.isEmpty() && !hNAME.isEmpty() && !port.isEmpty() && mUser.isEmpty()) {
-            password.setError("Please insert password");
-        } else if (!port.isEmpty() && hNAME.isEmpty() && !mPass.isEmpty() && !mUser.isEmpty()) {
-            Hostname.setError("Please insert hostname");
-        } else if (port.isEmpty() && !mUser.isEmpty() && !mPass.isEmpty() && !hNAME.isEmpty()) {
-            Port.setError("Please insert port");
-        }
-        else if (!mUser.isEmpty() && mPass.isEmpty() && hNAME.isEmpty() && port.isEmpty()){
-            password.setError("Please insert password");
-            Hostname.setError("Please insert hostname");
-            Port.setError("Please insert port");
-        }
-        else if (!mPass.isEmpty() && mUser.isEmpty() && hNAME.isEmpty() && port.isEmpty()){
-            username.setError("Please insert Name");
-            Hostname.setError("Please insert hostname");
-            Port.setError("Please insert port");
-
-        }
-        else if (mUser.isEmpty() && mPass.isEmpty() && !hNAME.isEmpty() && port.isEmpty()){
-            username.setError("Please insert Name");
-            password.setError("Please insert password");
-            Port.setError("Please insert port");
-        }
-        else if (mUser.isEmpty() && mPass.isEmpty() && hNAME.isEmpty() && !port.isEmpty()){
-            username.setError("Please insert Name");
-            password.setError("Please insert password");
-            Hostname.setError("Please insert hostname");
-        }
-
-*/
-
-    }
 
 
 
     private void doLogin(final String username,final String password) {
         Call<Void> call = userService.login(username, password);
+
         call.enqueue(new Callback<Void>() {
+
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.code() == 200) {
+
 
                     //login start main activity
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     intent.putExtra("username", username);
                     startActivity(intent);
+                    query(username,password,status);
+                    conf();
                 } else {
 
                     Toast.makeText(LoginActivity.this, "Error " +response.message(), Toast.LENGTH_SHORT).show();
@@ -284,46 +252,37 @@ public  class LoginActivity extends AppCompatActivity  {
                 Log.d("ERROR", t.getMessage());
 
             }
+
         });
     }
 
-// alertedialogue
 
 
-/*
-        menu.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                AlertDialog.Builder mydialog = new AlertDialog.Builder(LoginActivity.this);
-                mydialog.setTitle("Hostname");
+        public void query(String username, String password, String status){
+            Call<List<Inventor>> call = queryService.query(username,password,status);
 
-                final EditText Input = new EditText(LoginActivity.this);
-                Input.setInputType(InputType.TYPE_CLASS_TEXT);
-                mydialog.setView(Input);
+            call.enqueue(new Callback<List<Inventor>>() {
 
-                mydialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        myText = Input.getText().toString();
-                        Toast.makeText(LoginActivity.this, "Hostname" + myText, Toast.LENGTH_LONG).show();
+                @Override
+                public void onResponse(Call<List<Inventor>> call, Response<List<Inventor>> response) {
+                    if(!response.isSuccessful()){
+                        Log.d("ERROR", response.message());
 
                     }
-                });
+               else  Log.d("Code: ", String.valueOf(response.code()));
 
-                mydialog.setPositiveButton("cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
+                }
 
-                    }
-                });
-
-
-            }
+                @Override
+                public void onFailure(Call<List<Inventor>> call, Throwable t) {
+                    Log.d("ERROR", t.getMessage());
+                }
+            });
+        }
 
 
-        });
 
- */
+
 
         private void conf (){
 
@@ -343,8 +302,6 @@ public  class LoginActivity extends AppCompatActivity  {
             }
 
 
-           // setHP(this,hostName.getText().toString(),Port.getText().toString());
-
             Button button2 = (Button) dialogView.findViewById(R.id.Ok);
             Button button1 = (Button) dialogView.findViewById(R.id.buttonCancel);
 
@@ -354,30 +311,7 @@ public  class LoginActivity extends AppCompatActivity  {
             button2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                  /*  SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-                    final String Host = sharedPreferences.getString("hostname", "");
-                    String portt = sharedPreferences.getString("port", "");
-*/
 
-
-
-
-                     //   String port = editTextPort.getText().toString().trim();
-
-                        //  String prenom = .getText().toString();
-                        // String ageStr = Port.getText().toString();
-                        //    int age = Integer.parseInt(ageStr);
-
-                    /*    SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-                        editor.putString("hostname", String.valueOf(Hostname));
-                        editor.putString("port", String.valueOf(Port));
-
-                        editor.apply();*/
-
-                        //editor.remove("prenom");
-                        //editor.apply();
 
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(hostName.getWindowToken(), 0);
@@ -392,10 +326,8 @@ public  class LoginActivity extends AppCompatActivity  {
                         confPrefsEditor.commit();
 
 
-
-
-
-                    dialogBuilder.dismiss();
+                        validate2(hostName,Port);
+                       // dialogBuilder.dismiss();
                 }
             });
 
@@ -412,6 +344,22 @@ public  class LoginActivity extends AppCompatActivity  {
             dialogBuilder.show();
 
         }
+
+    public void validate2(EditText host, EditText por) {
+        String hNAME = host.getText().toString().trim();
+        String port = por.getText().toString().trim();
+
+
+        if (hNAME.isEmpty() && port.isEmpty()) {
+            host.setError("Please insert hostname");
+            por.setError("Please insert port");
+        } else if (hNAME.isEmpty() && !port.isEmpty()) {
+            host.setError("Please insert hostname");
+        } else if (!hNAME.isEmpty() && port.isEmpty()) {
+            por.setError("Please insert port");
+        }
+
+    }
 
 
 

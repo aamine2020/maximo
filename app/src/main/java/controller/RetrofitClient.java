@@ -1,4 +1,4 @@
-package gestionDeStock.jackrutorial.webService;
+package controller;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

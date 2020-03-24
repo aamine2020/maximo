@@ -1,4 +1,4 @@
-package gestionDeStock.jackrutorial.webService;
+package controller;
 
 public class ResObj {
     private String message;

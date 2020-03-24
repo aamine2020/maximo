@@ -1,4 +1,4 @@
-package gestionDeStock.Login;
+package model.Login;
 
 import android.app.AlertDialog;
 import android.content.Context;

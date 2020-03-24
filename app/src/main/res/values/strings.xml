@@ -20,6 +20,13 @@ S’appuyant sur une double expertise informatique et métier, Smartech est en m
     <string name="link_resgit1">link_regist1</string>
     <string name="txtUsername"></string>
 
+
+
+    **home_activity
+
+    <string name="bt_sortie">Sortie</string>
+    <string name="bt_ajustement">Ajustement</string>
+
     <string name="title_conf">Configuration</string>
     <string name="secured">Secured</string>
     <string name="non_secured">Not Secured</string>
@@ -27,6 +34,10 @@ S’appuyant sur une double expertise informatique et métier, Smartech est en m
 
     <string name="Ok">Ok</string>
     <string name="buttonCancel">Cancel</string>
+
+
+    <string name="btn_first"></string>
+
 
 
 
