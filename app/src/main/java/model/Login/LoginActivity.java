@@ -44,9 +44,8 @@ public  class LoginActivity extends AppCompatActivity  {
     private static String status;
     private EditText Port,hostname;
     private Button login;
-    public ImageView menu;
+    public ImageView configure;
     private ProgressBar loading;
-  //  private ImageView link_regist;
     private CheckBox saveLoginCheckBox;
     private SharedPreferences loginPreferences;
     private SharedPreferences.Editor loginPrefsEditor;
@@ -84,7 +83,7 @@ public  class LoginActivity extends AppCompatActivity  {
 
 
         loading = (ProgressBar) findViewById(R.id.loading);
-        menu = (ImageView) findViewById(R.id.menu);
+        configure = (ImageView) findViewById(R.id.configure);
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
         status="(status != 'OBSOLETE' and siteid = 'FLEET' and location like '%ATLANTA%')";
@@ -167,7 +166,7 @@ public  class LoginActivity extends AppCompatActivity  {
             }
         });
 
-        menu.setOnClickListener(new View.OnClickListener() {
+        configure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -240,7 +239,6 @@ public  class LoginActivity extends AppCompatActivity  {
                     query(username,password,status);
                     conf();
                 } else {
-
                     Toast.makeText(LoginActivity.this, "Error " +response.message(), Toast.LENGTH_SHORT).show();
                     Log.d("ERROR", response.message());
                 }

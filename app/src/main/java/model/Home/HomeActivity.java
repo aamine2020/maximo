@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,23 +22,31 @@ public class HomeActivity extends AppCompatActivity {
     Button sortie,ajustement;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
 
 
-    //    Toolbar toolbar=findViewById(R.id.toolbar);
-      //   setSupportActionBar(toolbar);
+
+
+
        sortie=findViewById(R.id.bt_sortie);
        ajustement=findViewById(R.id.bt_ajustement);
 
+
+
     }
-@Override
-    public boolean onCreateOptionsMenu(Menu menu){
-    MenuInflater inflater=getMenuInflater();
-    inflater.inflate(R.menu.example_menu, menu);
-    return true;}
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater=getMenuInflater();
+        inflater.inflate(R.menu.example_menu, menu);
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
