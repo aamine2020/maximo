@@ -13,11 +13,11 @@ import retrofit2.http.Query;
 public interface QueryService {
 
     @FormUrlEncoded
-    @GET("/maxrest/rest/os/SM_INV?")
+    @GET("/maxrest/rest/mbo/query?")
     Call<List<Inventor>> query(
             @Query("_lid") String username,
             @Query("_lpwd") String password,
-            @Query("_uw") String status
+            @Query("app") String app
 
 
             );

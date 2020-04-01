@@ -11,4 +11,5 @@ public class Inventor {
     public String getPassword(){
         return password;
     }
+
 }

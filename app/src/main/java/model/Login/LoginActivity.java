@@ -2,6 +2,7 @@ package model.Login;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,7 +15,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +22,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.gestion_de_stock.R;
 
 
-import java.net.URL;
 import java.util.List;
 
 import controller.QueryService;
@@ -41,7 +40,7 @@ public  class LoginActivity extends AppCompatActivity  {
 
     private EditText username;
     private EditText password;
-    private static String status;
+    private static String app;
     private EditText Port,hostname;
     private Button login;
     public ImageView configure;
@@ -60,6 +59,8 @@ public  class LoginActivity extends AppCompatActivity  {
 //    private View v;
     private UserService userService;
     private QueryService queryService;
+
+    private LoginActivity activity;
 
 
   //  private RadioButton secured;
@@ -86,7 +87,7 @@ public  class LoginActivity extends AppCompatActivity  {
         configure = (ImageView) findViewById(R.id.configure);
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
-        status="(status != 'OBSOLETE' and siteid = 'FLEET' and location like '%ATLANTA%')";
+        app="inventor";
         login = (Button) findViewById(R.id.login);
 
        // link_regist = (ImageView) findViewById(R.id.link_regist);
@@ -117,6 +118,8 @@ public  class LoginActivity extends AppCompatActivity  {
 */
         userService = ApiUtils.getUserService(URL_LOGIN);
         queryService=ApiUtils.getQueryService(URL_LOGIN);
+
+        this.activity=this;
 
             //checkbox
             saveLogin = loginPreferences.getBoolean("saveLogin", false);
@@ -205,6 +208,7 @@ public  class LoginActivity extends AppCompatActivity  {
         if (!mUser.isEmpty() && !mPass.isEmpty() ){
             //do login
             doLogin(mUser, mPass);
+            popup();
         }
         else if (mUser.isEmpty() && mPass.isEmpty()){
             username.setError("Please insert Name");
@@ -236,8 +240,9 @@ public  class LoginActivity extends AppCompatActivity  {
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     intent.putExtra("username", username);
                     startActivity(intent);
-                    query(username,password,status);
-                    conf();
+                    query(username,password,app);
+
+
                 } else {
                     Toast.makeText(LoginActivity.this, "Error " +response.message(), Toast.LENGTH_SHORT).show();
                     Log.d("ERROR", response.message());
@@ -253,6 +258,30 @@ public  class LoginActivity extends AppCompatActivity  {
 
         });
     }
+
+
+    public void popup(){
+
+
+            AlertDialog.Builder myPopup = new AlertDialog.Builder(activity);
+            myPopup.setTitle("Salut!");
+            myPopup.setMessage("Voulez-vous charger les requetes ?");
+            myPopup.setPositiveButton("OUI", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    Toast.makeText(getApplicationContext(), "vous avez cliquer sur oui", Toast.LENGTH_SHORT).show();
+                }
+            });
+            myPopup.setNegativeButton("NON", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getApplicationContext(), "vous n'etes pas d'accord", Toast.LENGTH_SHORT).show();
+                }
+            });
+            myPopup.show();
+        }
+
 
 
 
