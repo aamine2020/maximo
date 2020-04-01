@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:clickable="false"
+            android:clickable="true"
             android:linksClickable="false"
             android:text="@string/secured"
             android:textColor="#009688"
@@ -45,6 +45,7 @@
             style="@android:style/Widget.DeviceDefault.Light.CompoundButton.RadioButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="true"
             android:text="@string/non_secured"
             android:textColor="#009688"
             android:textStyle="bold" />
